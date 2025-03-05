@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pollution in VR</title>
+        <!-- super-sky doesn't work with latest A-Frame release 1.7.0  -->
+        <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+
+        <!-- a-frame extras is a collection of add-ons including components for controls, model loaders, pathfinding...
+        more info: https://github.com/c-frame/aframe-extras -->
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script> 
+
+        <!-- Selection of original A-Frame environments
+        https://github.com/supermedium/aframe-environment-component -->
+        <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.7/dist/aframe-environment-component.min.js"></script>
+
+        <!-- user events -->
+        <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+
+        <!--ocean-->
+        <script src="https://cdn.jsdelivr.net/npm/aframe-extras.ocean@6.1.1/index.min.js"></script>
+
+        <style>
+            @keyframes fadeIn {
+              0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
+           }
+          #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 99999;
+            height: 100%;
+            width: 100%;
+            animation-name: fadeIn;
+            animation-duration: 3s;
+          }
+        .modalconent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(216, 230, 228, 0.5);
+            width: 40%;
+            padding: 2em;
+            border-radius: 25px;
+            border: 4px solid #050505;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2em;
+            text-align: center;
+        }
+        button {
+          padding: .25em .5em .25em .5em;
+          border-radius: 20px;
+          border: 2px solid #050505;
+          background: rgba(53, 102, 97, 0.5);
+          font-size: 1.5em;
+        }
+        </style>
+
+    </head>
+    <body>
+        <div id="modal">
+            <div class="modalconent">
+              <h1>Tides of Trash</h1>
+              <h3>The Effects of Pollution</h3>
+              <button id="button">Enter</button>
+            </div>
+        </div>
+        <a-scene>
+            <a-assets>
+                <img id="beach" src="assets/01_a_frame/sand-texture.jpg">
+                <img id="ocean" src="assets/01_a_frame/water-texture.jpg">
+                <img id="sky" src="assets/01_a_frame/sky.jpg">
+                <a-asset-item id="umbrella" src="assets/01_a_frame/beach_umbrella_low_poly_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="water-bottle" src="assets/01_a_frame/water_bottles_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="wine_bottle" src="assets/01_a_frame/3d_wine_bottle_model_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="chair" src="assets/01_a_frame/deck_chair_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="cooler" src="assets/01_a_frame/basic_beach_cooler_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="trash" src="assets/01_a_frame/pile_of_trash_and_garbage_3_piece_set_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="tree" src="assets/01_a_frame/palm_tree_model_gltf/scene.gltf"></a-asset-item>
+                <a-asset-item id="garbage" src="assets/01_a_frame/thin_garbage_shhlqth_2k_ue_mid/shhlqth_tier_2.gltf"></a-asset-item>
+                <a-asset-item id="ball" src="assets/01_a_frame/beach_ball_low_poly_gltf/scene.gltf"></a-asset-item>
+                <audio id="ocean_sounds" src="assets/01_a_frame/calm_ocean_sounds.mp3" preload="auto"></audio>
+            </a-assets>
+
+            <a-entity id="rig" position="0 0 0">
+                <a-camera position="0 1.6 0" look-controls="pointerLockEnabled: true">
+                    <a-cursor></a-cursor>
+                </a-camera>
+            </a-entity>
+
+            <a-ocean 
+                position="0 0.3 -51" 
+                width="100" 
+                depth="100" 
+                color="#006994" 
+                frequency="5" 
+                speed="0.1"
+                opacity="1"
+                material="src:#ocean">
+            </a-ocean>
+
+            <a-plane src="#beach" position="0 0.25 23" rotation="-90 0 0" width="100" height="50"></a-plane>
+            <a-sky src="#sky"></a-sky>
+
+            <a-entity light="color: #eebaba; intensity: 2.37; type: hemisphere"></a-entity>
+            <a-gltf-model src="#umbrella" scale="2 2 2" position="0 0.25 10" rotation="0 90 0 "></a-gltf-model>
+            <a-gltf-model src="#chair" scale="2 2 2" position="-1 0.25 10" rotation="0 90 0"></a-gltf-model>
+            <a-gltf-model src="#cooler" scale="0.25 0.25 0.25" position="-1 -0.3 10" rotation="0 90 0"></a-gltf-model>
+            <a-gltf-model src="#umbrella" scale="2 2 2" position="0 0.25 10" rotation="0 90 0 "></a-gltf-model>
+            <a-gltf-model src="#chair" scale="2 2 2" position="-1 0.25 10" rotation="0 90 0"></a-gltf-model>
+            <a-gltf-model src="#cooler" scale="0.25 0.25 0.25" position="-1 -0.3 10" rotation="0 90 0"></a-gltf-model>
+            <a-gltf-model src="#ball" scale="1.2 1.2 1.2 " position="0.5 0.4 9"></a-gltf-model>
+            <a-gltf-model src="#tree" scale="0.005 0.005 0.005" position="-2 -0.3 15"></a-gltf-model>
+            <a-gltf-model src="#tree" scale="0.005 0.005 0.005" position="-7 -0.3 15" ></a-gltf-model>
+            <a-gltf-model src="#tree" scale="0.005 0.005 0.005" position="3 -0.3 15" ></a-gltf-model>
+            <a-gltf-model src="#trash" scale="6 6 6" position="-20 0.25 -20" animation="property: position; to: -20 0.1 -20; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#trash" scale="6 6 6" position="-50 0.25 -75" animation="property: position; to: -50 0.1 -75; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#trash" scale="6 6 6" position="20 0.25 -60" animation="property: position; to: 20 0.1 -60; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#water-bottle" scale="3 3 3" position="0 0.3 -8" rotation="0 90 90" animation="property: position; to: 0 0.5 -8; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#water-bottle" scale="3 3 3" position="-20 0.3 -20" rotation="0 90 90" animation="property: position; to: -20 0.5 -20; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#water-bottle" scale="3 3 3" position="25 0.5 -25" rotation="0 90 90" animation="property: position; to: 25 0.5 -25; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#water-bottle" scale="3 3 3" position="40 0.3 -40" rotation="0 90 90" animation="property: position; to: 40 0.5 -40; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#wine_bottle" scale="0.25 0.25 0.25" position="-20 0.3 -12" rotation="0 90 90" animation="property: position; to: -20 0.5 -12; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#wine_bottle" scale="0.25 0.25 0.25" position="20 0.3 -22" rotation="0 90 90" animation="property: position; to: 20 0.5 -22; dir: alternate; dur: 2000; loop: true"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="-50 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="-40 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="-30 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="-20 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="-10 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="0 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="10 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="20 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="30 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="40 0.26 5"></a-gltf-model>
+            <a-gltf-model src="#garbage" scale="6 6 6" position="50 0.26 5"></a-gltf-model>
+        </a-scene>
+        </a-scene>
+
+        <script>
+            // close title modal and trigger background audio
+            window.onload = function() {
+              const audioElement = new Audio('assets/01_a_frame/calm_ocean_sounds.mp3');
+              
+              document.getElementById("button").onclick = function() {
+                document.getElementById("modal").style.display = "none";
+                audioElement.play();
+              };
+            };
+        </script>
+
+
+
+    </body>
+</html>
